@@ -15,6 +15,9 @@ namespace SaccFlightAndVehicles
         private SaccGroundVehicle[] SaccGroundVehicles;
         private SGV_GearBox[] SGVGearBoxs;
         private SAV_SyncScript[] SAVSyncScripts;
+        //** SH-1T **
+        private DFUNC_TrailSmoke[] DFUNCTrailSmokes;
+        //** SH-1T **
         public Slider JoystickSensitivitySlider;
         public Text JoyStickSensitivitySliderNumber;
         private float[] DefaultSteeringDegrees;
@@ -26,6 +29,9 @@ namespace SaccFlightAndVehicles
             SaccGroundVehicles = new SaccGroundVehicle[Vehicles.Length];
             SGVGearBoxs = new SGV_GearBox[Vehicles.Length];
             SAVSyncScripts = new SAV_SyncScript[Vehicles.Length];
+            //** SH-1T **
+            DFUNCTrailSmokes = new DFUNC_TrailSmoke[Vehicles.Length];
+            //** SH-1T **
             for (int i = 0; i < Vehicles.Length; i++)
             {
                 SaccAirVehicles[i] = (SaccAirVehicle)Vehicles[i].GetExtention(GetUdonTypeName<SaccAirVehicle>());
@@ -33,6 +39,9 @@ namespace SaccFlightAndVehicles
                 SaccGroundVehicles[i] = (SaccGroundVehicle)Vehicles[i].GetExtention(GetUdonTypeName<SaccGroundVehicle>());
                 SAVSyncScripts[i] = (SAV_SyncScript)Vehicles[i].GetExtention(GetUdonTypeName<SAV_SyncScript>());
                 SGVGearBoxs[i] = (SGV_GearBox)Vehicles[i].GetExtention(GetUdonTypeName<SGV_GearBox>());
+                //** SH-1T **
+                DFUNCTrailSmokes[i] = (DFUNC_TrailSmoke)Vehicles[i].GetExtention(GetUdonTypeName<DFUNC_TrailSmoke>());
+                //** SH-1T **
             }
             DefaultSteeringDegrees = new float[Vehicles.Length];
             for (int i = 0; i < Vehicles.Length; i++)
@@ -55,6 +64,7 @@ namespace SaccFlightAndVehicles
             //** SH-1T **
             if (ThrustVectoringOnGroundToggle) { ThrustVectoringOnGroundDefault = ThrustVectoringOnGroundToggle.isOn; ToggleThrustVectoringOnGround(); }
             if (LongJoystickToggle) { LongJoystickDefault = LongJoystickToggle.isOn; ToggleLongJoystick(); }
+            if (SmokeLifetimeSlider) { SmokeLifetimeDefault = SmokeLifetimeSlider.value; SetSmokeLifetime(); }
             //** SH-1T **
             //sliders
             if (DialSensSlider) { DialSensDefault = DialSensSlider.value; SetDialSensitivity(); }
@@ -322,6 +332,20 @@ namespace SaccFlightAndVehicles
                 }
             }
         }
+
+        [System.NonSerialized] public float SmokeLifetimeDefault;
+        public Slider SmokeLifetimeSlider;
+        public Text SmokeLifetimeSliderNumber;
+        public void SetSmokeLifetime()
+        {
+            float sensvalue = SmokeLifetimeSlider.value;
+            SmokeLifetimeSliderNumber.text = sensvalue.ToString("F0");
+            foreach (DFUNC_TrailSmoke smoke in DFUNCTrailSmokes)
+            {
+                if (smoke)
+                { smoke.SetProgramVariable("Lifetime", sensvalue); }
+            }
+        }
         //** SH-1T **
 
         public void Reset()
@@ -344,6 +368,7 @@ namespace SaccFlightAndVehicles
             //** SH-1T **
             if (ThrustVectoringOnGroundToggle) { ThrustVectoringOnGroundToggle.isOn = ThrustVectoringOnGroundDefault; }
             if (LongJoystickToggle) { LongJoystickToggle.isOn = LongJoystickDefault; }
+            if (SmokeLifetimeSlider) { SmokeLifetimeSlider.value = SmokeLifetimeDefault; }
             //** SH-1T **
         }
         [Header("Debug")]
