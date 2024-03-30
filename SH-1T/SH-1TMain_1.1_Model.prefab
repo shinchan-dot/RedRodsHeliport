@@ -19,6 +19,61 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 819074066856278205, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
+    - target: {fileID: 1111265659654395856, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Lfunc2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Lfunc8
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc2
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc3
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc4
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Lfunc2key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Lfunc8key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc2key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc3key
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Rfunc4key
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 1392656427961869773, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -67,6 +122,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
+    - target: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Dial_Functions_L.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Dial_Functions_L.Array.data[5]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Dial_Functions_R.Array.data[1]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Dial_Functions_R.Array.data[2]
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 2448902069209538953, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: Dial_Functions_R.Array.data[3]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 2634999773365590050, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -188,6 +268,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6245224618858171411, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6295786100183925037, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
       propertyPath: m_Name
@@ -199,6 +284,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6376675313883960355, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
+    - target: {fileID: 6522628521288882596, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6524319254928209118, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6706492711059467256, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6992786411117439227, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
       propertyPath: serializationData.Prefab
@@ -217,6 +317,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7121149641087876122, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
+    - target: {fileID: 7266938867832794764, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7772815824264363225, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
       propertyPath: AdverseYaw
@@ -282,5 +387,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8991257232824319957, guid: 7b1d9af81b950934383b0ecd232651b9,
         type: 3}
+    - target: {fileID: 9217414757731379654, guid: 7b1d9af81b950934383b0ecd232651b9,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7b1d9af81b950934383b0ecd232651b9, type: 3}
