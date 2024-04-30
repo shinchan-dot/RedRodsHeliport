@@ -1,5 +1,31 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &1805457500
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7384612562622343376}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45115577ef41a5b4ca741ed302693907, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  interactTextPlacement: {fileID: 0}
+  interactText: Use
+  interactTextGO: {fileID: 0}
+  proximity: 2
+  SynchronizePosition: 0
+  AllowCollisionOwnershipTransfer: 0
+  Reliable: 0
+  _syncMethod: 0
+  serializedProgramAsset: {fileID: 11400000, guid: f3f85974fa030814d9079f280cbab7a4,
+    type: 2}
+  programSource: {fileID: 11400000, guid: 06969ee803588464aa291b47ce3d21c9, type: 2}
+  serializedPublicVariablesBytesString: Ai8AAAAAATIAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAFQAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AAAAAAAYBAAAAAAAAACcBBAAAAHQAeQBwAGUAAWgAAABTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEcAZQBuAGUAcgBpAGMALgBMAGkAcwB0AGAAMQBbAFsAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4ALgBJAG4AdABlAHIAZgBhAGMAZQBzAC4ASQBVAGQAbwBuAFYAYQByAGkAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AXQBdACwAIABtAHMAYwBvAHIAbABpAGIAAQEJAAAAVgBhAHIAaQBhAGIAbABlAHMALwEAAAABaAAAAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4ARwBlAG4AZQByAGkAYwAuAEwAaQBzAHQAYAAxAFsAWwBWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAEkAbgB0AGUAcgBmAGEAYwBlAHMALgBJAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlACwAIABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgBdAF0ALAAgAG0AcwBjAG8AcgBsAGkAYgABAAAABgEAAAAAAAAAAi8CAAAAAUkAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAGAAMQBbAFsAUwB5AHMAdABlAG0ALgBJAG4AdAAzADIALAAgAG0AcwBjAG8AcgBsAGkAYgBdAF0ALAAgAFYAUgBDAC4AVQBkAG8AbgAuAEMAbwBtAG0AbwBuAAIAAAAGAgAAAAAAAAAnAQQAAAB0AHkAcABlAAEXAAAAUwB5AHMAdABlAG0ALgBTAHQAcgBpAG4AZwAsACAAbQBzAGMAbwByAGwAaQBiACcBCgAAAFMAeQBtAGIAbwBsAE4AYQBtAGUAAR8AAABfAF8AXwBVAGQAbwBuAFMAaABhAHIAcABCAGUAaABhAHYAaQBvAHUAcgBWAGUAcgBzAGkAbwBuAF8AXwBfACcBBAAAAHQAeQBwAGUAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiABcBBQAAAFYAYQBsAHUAZQACAAAABwUHBQcF
+  publicVariablesUnityEngineObjects: []
+  publicVariablesSerializationDataFormat: 0
 --- !u!114 &1805457501
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23,27 +49,9 @@ MonoBehaviour:
     SerializationNodes: []
   _udonSharpBackingUdonBehaviour: {fileID: 1805457500}
   SAVControl: {fileID: 378745780336584898}
-  HudHold: {fileID: 1971575253760400836}
+  HudDummy: {fileID: 0}
   Dial_Funcon: {fileID: 4049997459479123976}
-  GLimiter: 999
-  AoALimiter: 999
-  AltHoldPitchProportional: 0.028
-  AltHoldPitchIntegral: 0
-  AltHoldPitchDerivative: 0.0167
-  AltHoldRollProportional: 0.2
-  AltHoldRollDerivative: 0.03
-  AltHoldYawProportional: 15
-  AltHoldYawDerivative: 0.1
   HelicopterMode: 1
-  CruiseProportional: 1
-  CruiseIntegral: 0.3
-  CruiseDerivative: 0.6
-  AutoHoverStrengthPitch: 5
-  AutoHoverMaxPitch: 10
-  AutoHoverStrengthRoll: 5
-  AutoHoverMaxRoll: 10
-  AutoHoverMaxAngleSpeedPitch: 20
-  AutoHoverMaxAngleSpeedRoll: 20
   TargetSpeed: 30.8667
   CurrentSpeed: 0
   SpeedError: 0
@@ -72,9 +80,12 @@ MonoBehaviour:
   PitchDGain: -0.04
   PitchDTerm: 0
   CyclicUPitch: 0
-  CourseTargetPosition: {x: 500, y: 500}
+  CourseTargetPositions:
+  - {x: 600, y: -600}
+  - {x: -600, y: 200}
+  CourseTargetPositionIndex: 0
   RightTurn: 1
-  CourseDistance: 0
+  CourseTargetDistance: 0
   CourseError: 0
   CourseErrorLast: 0
   CoursePGain: -0.8
@@ -87,7 +98,7 @@ MonoBehaviour:
   CourseDGain: 0
   CourseDTerm: 0
   TargetRoll: 0
-  TargetRollLimit: 15
+  TargetRollLimit: 20
   CurrentRoll: 0
   RollError: 0
   RollErrorLast: 0
@@ -106,17 +117,17 @@ MonoBehaviour:
   HeadingErrorScale: 1
   HeadingError: 0
   HeadingErrorLast: 0
-  HeadingPGain: 0.018
+  HeadingPGain: 0.019
   HeadingPTerm: 0
   HeadingIError: 0
   HeadingIErrorLimit: 0
   HeadingIGain: 0
   HeadingITerm: 0
   HeadingDError: 0
-  HeadingDGain: 0.016
+  HeadingDGain: 0.018
   HeadingDTerm: 0
   CyclicUYaw: 0
-  TargetAltitude: 1219.2
+  TargetAltitude: 243.84
   CurrentAltitude: 0
   AltitudeDistance: 0
   AltitudeError: 0
@@ -131,7 +142,7 @@ MonoBehaviour:
   AltitudeDGain: 0
   AltitudeDTerm: 0
   TargetVerticalSpeed: 0
-  TargetVerticalSpeedLimit: 152.4
+  TargetVerticalSpeedLimit: 243.84
   CurrentVerticalSpeed: 0
   VerticalSpeedError: 0
   VerticalSpeedErrorLast: 0
@@ -145,32 +156,6 @@ MonoBehaviour:
   VerticalSpeedDGain: 0.004
   VerticalSpeedDTerm: 0
   CollectiveU: 0
---- !u!114 &1805457500
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7384612562622343376}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45115577ef41a5b4ca741ed302693907, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  interactTextPlacement: {fileID: 0}
-  interactText: Use
-  interactTextGO: {fileID: 0}
-  proximity: 2
-  SynchronizePosition: 0
-  AllowCollisionOwnershipTransfer: 0
-  Reliable: 0
-  _syncMethod: 0
-  serializedProgramAsset: {fileID: 11400000, guid: f3f85974fa030814d9079f280cbab7a4,
-    type: 2}
-  programSource: {fileID: 11400000, guid: 06969ee803588464aa291b47ce3d21c9, type: 2}
-  serializedPublicVariablesBytesString: Ai8AAAAAATIAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAFQAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AAAAAAAYBAAAAAAAAACcBBAAAAHQAeQBwAGUAAWgAAABTAHkAcwB0AGUAbQAuAEMAbwBsAGwAZQBjAHQAaQBvAG4AcwAuAEcAZQBuAGUAcgBpAGMALgBMAGkAcwB0AGAAMQBbAFsAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4ALgBJAG4AdABlAHIAZgBhAGMAZQBzAC4ASQBVAGQAbwBuAFYAYQByAGkAYQBiAGwAZQAsACAAVgBSAEMALgBVAGQAbwBuAC4AQwBvAG0AbQBvAG4AXQBdACwAIABtAHMAYwBvAHIAbABpAGIAAQEJAAAAVgBhAHIAaQBhAGIAbABlAHMALwEAAAABaAAAAFMAeQBzAHQAZQBtAC4AQwBvAGwAbABlAGMAdABpAG8AbgBzAC4ARwBlAG4AZQByAGkAYwAuAEwAaQBzAHQAYAAxAFsAWwBWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAEkAbgB0AGUAcgBmAGEAYwBlAHMALgBJAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlACwAIABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgBdAF0ALAAgAG0AcwBjAG8AcgBsAGkAYgABAAAABgEAAAAAAAAAAi8CAAAAAUkAAABWAFIAQwAuAFUAZABvAG4ALgBDAG8AbQBtAG8AbgAuAFUAZABvAG4AVgBhAHIAaQBhAGIAbABlAGAAMQBbAFsAUwB5AHMAdABlAG0ALgBJAG4AdAAzADIALAAgAG0AcwBjAG8AcgBsAGkAYgBdAF0ALAAgAFYAUgBDAC4AVQBkAG8AbgAuAEMAbwBtAG0AbwBuAAIAAAAGAgAAAAAAAAAnAQQAAAB0AHkAcABlAAEXAAAAUwB5AHMAdABlAG0ALgBTAHQAcgBpAG4AZwAsACAAbQBzAGMAbwByAGwAaQBiACcBCgAAAFMAeQBtAGIAbwBsAE4AYQBtAGUAAR8AAABfAF8AXwBVAGQAbwBuAFMAaABhAHIAcABCAGUAaABhAHYAaQBvAHUAcgBWAGUAcgBzAGkAbwBuAF8AXwBfACcBBAAAAHQAeQBwAGUAARYAAABTAHkAcwB0AGUAbQAuAEkAbgB0ADMAMgAsACAAbQBzAGMAbwByAGwAaQBiABcBBQAAAFYAYQBsAHUAZQACAAAABwUHBQcF
-  publicVariablesUnityEngineObjects: []
-  publicVariablesSerializationDataFormat: 0
 --- !u!1001 &7971095949507040283
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -533,12 +518,6 @@ MonoBehaviour:
 --- !u!1 &4049997459479123976 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6245224618858171411, guid: 7b1d9af81b950934383b0ecd232651b9,
-    type: 3}
-  m_PrefabInstance: {fileID: 7971095949507040283}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1971575253760400836 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8485754455792994783, guid: 7b1d9af81b950934383b0ecd232651b9,
     type: 3}
   m_PrefabInstance: {fileID: 7971095949507040283}
   m_PrefabAsset: {fileID: 0}

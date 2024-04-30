@@ -10,7 +10,7 @@ namespace SaccFlightAndVehicles
     public class DFUNC_DummySystem : UdonSharpBehaviour
     {
         public UdonSharpBehaviour SAVControl;
-        public GameObject HudHold;
+        public GameObject HudDummy;
         public GameObject Dial_Funcon;
         /*
         [Tooltip("Limit Gs that can be pulled by the altitude hold auto pilot")]
@@ -68,6 +68,7 @@ namespace SaccFlightAndVehicles
         private bool StickHeld;
         private bool Piloting;
 
+        //PID制御の変数。UnityのInspectorを見ながら調整するためにpublicにしておく。
         [Header("PITCH")]
         public float TargetSpeed = 30.8667f;
         public float CurrentSpeed;
@@ -218,7 +219,6 @@ namespace SaccFlightAndVehicles
         public void SFEXT_G_EngineOn()
         {
             EngineOn = true;
-            Debug.Log("■EngineOn()");
             ResetCourse();
         }
         public void SFEXT_G_EngineOff()
@@ -280,7 +280,7 @@ namespace SaccFlightAndVehicles
                 JoyStickOveridden = true;
             }
             if (Dial_Funcon) { Dial_Funcon.SetActive(AltHold); }
-            if (HudHold) { HudHold.SetActive(AltHold); }
+            if (HudDummy) { HudDummy.SetActive(AltHold); }
             EntityControl.SendEventToExtensions("SFEXT_G_AltHoldOn");
             if (HelicopterMode)
             { SetCruiseOn(); }
@@ -291,7 +291,7 @@ namespace SaccFlightAndVehicles
             if (!InVR || !Selected) { gameObject.SetActive(false); }
             AltHold = false;
             if (Dial_Funcon) { Dial_Funcon.SetActive(AltHold); }
-            if (HudHold) { HudHold.SetActive(AltHold); }
+            if (HudDummy) { HudDummy.SetActive(AltHold); }
             if (JoyStickOveridden)
             {
                 SAVControl.SetProgramVariable("JoystickOverridden", (int)SAVControl.GetProgramVariable("JoystickOverridden") - 1);
