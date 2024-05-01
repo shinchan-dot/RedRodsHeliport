@@ -12,47 +12,10 @@ namespace SaccFlightAndVehicles
         public UdonSharpBehaviour SAVControl;
         public GameObject HudDummy;
         public GameObject Dial_Funcon;
-        /*
-        [Tooltip("Limit Gs that can be pulled by the altitude hold auto pilot")]
-        public float GLimiter = 12f;
-        [Tooltip("Limit AoA that can be pulled by the altitude hold auto pilot")]
-        public float AoALimiter = 15f;
-        public float AltHoldPitchProportional = 1f;
-        public float AltHoldPitchIntegral = 1f;
-        private float AltHoldPitchIntegrator;
-        public float AltHoldPitchDerivative = .1f;
-        private float AltHoldPitchlastframeerror;
-        public float AltHoldRollProportional = .01f;
-        public float AltHoldRollDerivative = .1f;
-        private float AltHoldRolllastframeerror;
-        public float AltHoldYawProportional = 15f;
-        public float AltHoldYawDerivative = .1f;
-        private float AltHoldYawlastframeerror;
-        */
         [Header("Cruise = Helicopter Throttle")]
         public bool HelicopterMode;
-        /*
-        public float CruiseProportional = .1f;
-        public float CruiseIntegral = .1f;
-        private float CruiseIntegrator;
-        private float CruiseIntegratorMax = 5;
-        private float CruiseIntegratorMin = -5;
-        public float CruiseDerivative = .6f;
-        */
-        //private float SetSpeed;
         private bool Cruise;
         private bool CruiseThrottleOverridden;
-        /*
-        private float Cruiselastframeerror;
-        public float AutoHoverStrengthPitch = 5f;
-        public float AutoHoverMaxPitch = 10f;
-        public float AutoHoverStrengthRoll = 5f;
-        public float AutoHoverMaxRoll = 10f;
-        [Tooltip("Speed at which the auto hover Angle stops increasing, forward/back = pitch")]
-        public float AutoHoverMaxAngleSpeedPitch = 20f;
-        [Tooltip("Speed at which the auto hover Angle stops increasing, lateral = yaw")]
-        public float AutoHoverMaxAngleSpeedRoll = 20f;
-        */
         private SaccEntity EntityControl;
         private bool UseLeftTrigger = false;
         private bool TriggerLastFrame;
@@ -248,7 +211,6 @@ namespace SaccFlightAndVehicles
         }
         public void SFEXT_O_JoystickGrabbed()
         {
-            //AltHoldPitchIntegrator = 0;
             ResetIntegrators();
 
             StickHeld = true;
@@ -260,7 +222,6 @@ namespace SaccFlightAndVehicles
         }
         public void SFEXT_O_JoystickDropped()
         {
-            //AltHoldPitchIntegrator = 0;
             ResetIntegrators();
 
             StickHeld = false;
@@ -299,7 +260,6 @@ namespace SaccFlightAndVehicles
             }
             SAVControl.SetProgramVariable("JoystickOverride", Vector3.zero);
             RotationInputs = Vector3.zero;
-            //AltHoldPitchIntegrator = 0;
             ResetIntegrators();
 
             EntityControl.SendEventToExtensions("SFEXT_G_AltHoldOff");
@@ -334,10 +294,10 @@ namespace SaccFlightAndVehicles
             {
                 float DeltaTime = Time.deltaTime;
 
-                //ピッチ
+                //Pitch
 
                 //目標速度のためのピッチ
-                CurrentSpeed = (float)SAVControl.GetProgramVariable("Speed");
+                CurrentSpeed = (float)SAVControl.GetProgramVariable("AirSpeed");
                 SpeedError = TargetSpeed - CurrentSpeed;
                 TargetPitch = PIDControl(SpeedError, ref SpeedErrorLast, SpeedPGain, ref SpeedPTerm, ref SpeedIError, SpeedIErrorLimit, SpeedIGain, ref SpeedITerm, ref SpeedDError, SpeedDGain, ref SpeedDTerm, DeltaTime, TargetPitchLimit);
 
@@ -347,7 +307,7 @@ namespace SaccFlightAndVehicles
                 CyclicUPitch = PIDControl(PitchError, ref PitchErrorLast, PitchPGain, ref PitchPTerm, ref PitchIError, PitchIErrorLimit, PitchIGain, ref PitchITerm, ref PitchDError, PitchDGain, ref PitchDTerm, DeltaTime, 1);
                 RotationInputs.x = CyclicUPitch;
 
-                //ロール
+                //Roll
 
                 Vector2 CurrentPosition = new Vector2(VehicleTransform.position.x, VehicleTransform.position.z);
                 Vector2 CourseTargetPosition = CourseTargetPositions[CourseTargetPositionIndex];
@@ -394,7 +354,7 @@ namespace SaccFlightAndVehicles
                 CyclicURoll = PIDControl(RollError, ref RollErrorLast, RollPGain, ref RollPTerm, ref RollIError, RollIErrorLimit, RollIGain, ref RollITerm, ref RollDError, RollDGain, ref RollDTerm, DeltaTime, 1);
                 RotationInputs.z = CyclicURoll;
 
-                //ヨー
+                //Yaw
                 TargetHeading = CurrentCourse;
                 CurrentHeading = new Vector2(VehicleTransform.forward.x, VehicleTransform.forward.z);
                 HeadingError = Vector2.SignedAngle(TargetHeading, CurrentHeading); //-180から180
