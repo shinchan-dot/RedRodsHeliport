@@ -6,6 +6,8 @@ Create a new world project with VRChat Creator Companion.
 
 Install MasterCube from Unity Asset Store.
 
+Add Japanese font. NotoSansJP-SemiBold from Google Fonts.
+
 Install SaccFlightAndVehicles 1.64.
 
 Delete the following script files.
