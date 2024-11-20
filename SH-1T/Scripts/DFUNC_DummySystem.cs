@@ -31,6 +31,9 @@ namespace SaccFlightAndVehicles
         private bool StickHeld;
         private bool Piloting;
 
+        public DummyWaypoint[] Waypoints;
+        public int WaypointIndex = 0;
+
         //PID制御の変数。UnityのInspectorを見ながら調整するためにpublicにしておく。
         [Header("PITCH")]
         public float TargetSpeed = 30.8667f;
@@ -47,7 +50,13 @@ namespace SaccFlightAndVehicles
         public float SpeedDGain = 0;
         public float SpeedDTerm;
         public float TargetPitch;
-        public float TargetPitchLimit = 15;
+        public float TargetPitchLowerRange = 5;
+        public float TargetPitchUpperRange = 2;
+        public float TargetPitchLowerLimit;
+        public float TargetPitchUpperLimit;
+        public float TargetPitchLast = 0;
+        public float TargetPitchChangeRate = 5;
+        public float VTOLAngleDegrees;
         public float CurrentPitch;
         public float PitchError;
         public float PitchErrorLast = 0;
@@ -62,8 +71,6 @@ namespace SaccFlightAndVehicles
         public float PitchDTerm;
         public float CyclicUPitch;
         [Header("ROLL")]
-        public Vector2[] CourseTargetPositions = {new Vector2(600, -600), new Vector2(-600, 200)};
-        public int CourseTargetPositionIndex = 0;
         public bool RightTurn = false;
         public float CourseTargetDistance;
         public float CourseError;
@@ -151,6 +158,7 @@ namespace SaccFlightAndVehicles
             VehicleTransform = EntityControl.transform;
             if (Dial_Funcon) { Dial_Funcon.SetActive(false); }
             IsOwner = (bool)SAVControl.GetProgramVariable("IsOwner");
+
         }
         public void DFUNC_Selected()
         {
@@ -294,37 +302,39 @@ namespace SaccFlightAndVehicles
             {
                 float DeltaTime = Time.deltaTime;
 
+                //現在の経由地
+                DummyWaypoint waypoint = Waypoints[WaypointIndex];
+
                 //Pitch
 
                 //目標速度のためのピッチ
+                TargetSpeed = waypoint.Speed;
                 CurrentSpeed = (float)SAVControl.GetProgramVariable("AirSpeed");
                 SpeedError = TargetSpeed - CurrentSpeed;
-                TargetPitch = PIDControl(SpeedError, ref SpeedErrorLast, SpeedPGain, ref SpeedPTerm, ref SpeedIError, SpeedIErrorLimit, SpeedIGain, ref SpeedITerm, ref SpeedDError, SpeedDGain, ref SpeedDTerm, DeltaTime, TargetPitchLimit);
+                VTOLAngleDegrees = (float)SAVControl.GetProgramVariable("VTOLAngleDegrees");
+                TargetPitchLowerLimit = -(TargetSpeed / 3 - (90 - VTOLAngleDegrees)+ TargetPitchLowerRange); //60kt≒30m/sで約-10度
+                TargetPitchUpperLimit = TargetPitchLowerLimit + TargetPitchLowerRange + TargetPitchUpperRange;
+                TargetPitch = PIDControl(SpeedError, ref SpeedErrorLast, SpeedPGain, ref SpeedPTerm, ref SpeedIError, SpeedIErrorLimit, SpeedIGain, ref SpeedITerm, ref SpeedDError, SpeedDGain, ref SpeedDTerm, DeltaTime, TargetPitchLowerLimit, TargetPitchUpperLimit);
+                float targetPitchChangeRateDelta = TargetPitchChangeRate * DeltaTime;
+                TargetPitch = Mathf.Clamp(TargetPitch, TargetPitchLast - targetPitchChangeRateDelta, TargetPitchLast + targetPitchChangeRateDelta);
+                TargetPitchLast = TargetPitch;
 
                 //目標ピッチのための操作量
                 CurrentPitch = Vector3.SignedAngle(VehicleTransform.forward, Vector3.ProjectOnPlane(VehicleTransform.forward, Vector3.up), VehicleTransform.right);
                 PitchError = TargetPitch - CurrentPitch;
-                CyclicUPitch = PIDControl(PitchError, ref PitchErrorLast, PitchPGain, ref PitchPTerm, ref PitchIError, PitchIErrorLimit, PitchIGain, ref PitchITerm, ref PitchDError, PitchDGain, ref PitchDTerm, DeltaTime, 1);
+                CyclicUPitch = PIDControl(PitchError, ref PitchErrorLast, PitchPGain, ref PitchPTerm, ref PitchIError, PitchIErrorLimit, PitchIGain, ref PitchITerm, ref PitchDError, PitchDGain, ref PitchDTerm, DeltaTime, -1, 1);
                 RotationInputs.x = CyclicUPitch;
 
                 //Roll
 
                 Vector2 CurrentPosition = new Vector2(VehicleTransform.position.x, VehicleTransform.position.z);
-                Vector2 CourseTargetPosition = CourseTargetPositions[CourseTargetPositionIndex];
+                Vector2 WaypointPosition = new Vector2(waypoint.Position.x, waypoint.Position.z);
 
-                //目標地点に近付いたら次の目標へ
-                CourseTargetDistance = Vector2.Distance(CourseTargetPosition, CurrentPosition);
-                if (CourseTargetDistance < 200)
-                {
-                    CourseTargetPositionIndex = 1 - CourseTargetPositionIndex; //0と1を切り替え
-                    CourseTargetPosition = CourseTargetPositions[CourseTargetPositionIndex];
-                }
+                //旋回方向
+                RightTurn = waypoint.RightTurn;
 
-                //目標地点が2番目のとき右旋回
-                RightTurn = (CourseTargetPositionIndex == 1);
-
-                //目標方位 = 自分から見た目標地点の方位
-                Vector2 TargetCourse = (CourseTargetPosition - CurrentPosition);
+                //目標方位 = 自分から見た経由地点の方位
+                Vector2 TargetCourse = (WaypointPosition - CurrentPosition);
 
                 Vector3 CurrentCourse3 = ((Vector3)SAVControl.GetProgramVariable("CurrentVel"));
                 Vector2 CurrentCourse = new Vector2(CurrentCourse3.x, CurrentCourse3.z);
@@ -342,7 +352,7 @@ namespace SaccFlightAndVehicles
                 }
 
                 //目標方位のためのロール
-                TargetRoll = PIDControl(CourseError, ref CourseErrorLast, CoursePGain, ref CoursePTerm, ref CourseIError, CourseIErrorLimit, CourseIGain, ref CourseITerm, ref CourseDError, CourseDGain, ref CourseDTerm, DeltaTime, TargetRollLimit);
+                TargetRoll = PIDControl(CourseError, ref CourseErrorLast, CoursePGain, ref CoursePTerm, ref CourseIError, CourseIErrorLimit, CourseIGain, ref CourseITerm, ref CourseDError, CourseDGain, ref CourseDTerm, DeltaTime, -TargetRollLimit, TargetRollLimit);
 
                 //目標ロールのための操作量
                 CurrentRoll = VehicleTransform.localEulerAngles.z; //0から360 機内(ベクトルの後ろ)から見ると反時計回り
@@ -351,15 +361,26 @@ namespace SaccFlightAndVehicles
                     CurrentRoll -= 360;
                 }
                 RollError = TargetRoll - CurrentRoll;
-                CyclicURoll = PIDControl(RollError, ref RollErrorLast, RollPGain, ref RollPTerm, ref RollIError, RollIErrorLimit, RollIGain, ref RollITerm, ref RollDError, RollDGain, ref RollDTerm, DeltaTime, 1);
+                CyclicURoll = PIDControl(RollError, ref RollErrorLast, RollPGain, ref RollPTerm, ref RollIError, RollIErrorLimit, RollIGain, ref RollITerm, ref RollDError, RollDGain, ref RollDTerm, DeltaTime, -1, 1);
                 RotationInputs.z = CyclicURoll;
+
+                //経由地に近付いたら次の経由地へ
+                CourseTargetDistance = Vector2.Distance(WaypointPosition, CurrentPosition);
+                if (CourseTargetDistance < waypoint.Lead)
+                {
+                    WaypointIndex++;
+                    if(WaypointIndex >= Waypoints.Length)
+                    {
+                        WaypointIndex = 0;
+                    }
+                }
 
                 //Yaw
                 TargetHeading = CurrentCourse;
                 CurrentHeading = new Vector2(VehicleTransform.forward.x, VehicleTransform.forward.z);
                 HeadingError = Vector2.SignedAngle(TargetHeading, CurrentHeading); //-180から180
                 HeadingError *= HeadingErrorScale;
-                CyclicUYaw = PIDControl(HeadingError, ref HeadingErrorLast, HeadingPGain, ref HeadingPTerm, ref HeadingIError, HeadingIErrorLimit, HeadingIGain, ref HeadingITerm, ref HeadingDError, HeadingDGain, ref HeadingDTerm, DeltaTime, 1);
+                CyclicUYaw = PIDControl(HeadingError, ref HeadingErrorLast, HeadingPGain, ref HeadingPTerm, ref HeadingIError, HeadingIErrorLimit, HeadingIGain, ref HeadingITerm, ref HeadingDError, HeadingDGain, ref HeadingDTerm, DeltaTime, -1, 1);
                 RotationInputs.y = CyclicUYaw;
 
                 SAVControl.SetProgramVariable("JoystickOverride", RotationInputs);
@@ -393,27 +414,29 @@ namespace SaccFlightAndVehicles
                         }
 
                         //目標高度のための垂直速度
+                        TargetAltitude = waypoint.Position.y;
                         CurrentAltitude = ((Transform)SAVControl.GetProgramVariable("CenterOfMass")).position.y - (float)SAVControl.GetProgramVariable("SeaLevel");
                         AltitudeError = TargetAltitude - CurrentAltitude;
-                        TargetVerticalSpeed = PIDControl(AltitudeError, ref AltitudeErrorLast, AltitudePGain, ref AltitudePTerm, ref AltitudeIError, AltitudeIErrorLimit, AltitudeIGain, ref AltitudeITerm, ref AltitudeDError, AltitudeDGain, ref AltitudeDTerm, DeltaTime, TargetVerticalSpeedLimit);
+                        TargetVerticalSpeed = PIDControl(AltitudeError, ref AltitudeErrorLast, AltitudePGain, ref AltitudePTerm, ref AltitudeIError, AltitudeIErrorLimit, AltitudeIGain, ref AltitudeITerm, ref AltitudeDError, AltitudeDGain, ref AltitudeDTerm, DeltaTime, -TargetVerticalSpeedLimit, TargetVerticalSpeedLimit);
 
                         //目標垂直速度のための操作量
                         CurrentVerticalSpeed = ((Vector3)SAVControl.GetProgramVariable("CurrentVel")).y * 60;
                         VerticalSpeedError = TargetVerticalSpeed - CurrentVerticalSpeed;
-                        CollectiveU = PIDControl(VerticalSpeedError, ref VerticalSpeedErrorLast, VerticalSpeedPGain, ref VerticalSpeedPTerm, ref VerticalSpeedIError, VerticalSpeedIErrorLimit, VerticalSpeedIGain, ref VerticalSpeedITerm, ref VerticalSpeedDError, VerticalSpeedDGain, ref VerticalSpeedDTerm, DeltaTime, 1);
+                        CollectiveU = PIDControl(VerticalSpeedError, ref VerticalSpeedErrorLast, VerticalSpeedPGain, ref VerticalSpeedPTerm, ref VerticalSpeedIError, VerticalSpeedIErrorLimit, VerticalSpeedIGain, ref VerticalSpeedITerm, ref VerticalSpeedDError, VerticalSpeedDGain, ref VerticalSpeedDTerm, DeltaTime, -1, 1);
                         SAVControl.SetProgramVariable("ThrottleOverride", CollectiveU);
                     }
                 }
             }
         }
 
-        private float PIDControl(float error, ref float errorLast, float pGain, ref float pTerm, ref float iError, float iErrorLimit, float iGain, ref float iTerm, ref float dError, float dGain, ref float dTerm, float deltaTime, float uLimit)
+        private float PIDControl(float error, ref float errorLast, float pGain, ref float pTerm, ref float iError, float iErrorLimit, float iGain, ref float iTerm, ref float dError, float dGain, ref float dTerm, float deltaTime, float uLowerLimit, float uUpperLimit)
         {
             //proportional
             pTerm = pGain * error;
 
             //integral
-            iError += error * deltaTime;
+            float deltaError = error * deltaTime;
+            iError += deltaError;
             if (iErrorLimit > 0)
             {
                 iError = Mathf.Clamp(iError, -iErrorLimit, iErrorLimit);
@@ -425,7 +448,14 @@ namespace SaccFlightAndVehicles
             errorLast = error;
             dTerm = dGain * dError;
 
-            return Mathf.Clamp(pTerm + iTerm + dTerm, -uLimit, uLimit);
+            float sum = pTerm + iTerm + dTerm;
+            float u = Mathf.Clamp(sum, uLowerLimit, uUpperLimit);
+            if(u != sum)
+            {
+                // anti-windup
+                iError -= deltaError;
+            }
+            return u;
         }
 
         private void ResetIntegrators()
@@ -440,7 +470,7 @@ namespace SaccFlightAndVehicles
         }
         private void ResetCourse()
         {
-            CourseTargetPositionIndex = 0;
+            WaypointIndex = 0;
         }
         public void SetCruiseOn()
         {
