@@ -1,5 +1,10 @@
 Changelog
 --------------------------------------------------------------------------------
+v1.4.0
+Enhance dummy system
+Refine formation flight model
+Add cicare trainer
+--------------------------------------------------------------------------------
 v1.3.0
 Add dummy system
 Add instruction texts
