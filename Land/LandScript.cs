@@ -12,10 +12,15 @@ public class LandScript : MonoBehaviour
     [ContextMenu("PUT_PLANES")]
     public void PutPlanes()
     {
+        int planeSize = 300 * 10;
+        int planesPerSide = 10;
+        int positionMax = planeSize * (planesPerSide / 2 - 1) + planeSize / 2;
+        int positionMin = -positionMax;
+
         int count = 1;
-        for (int z = -1350; z <= 1350; z += 300)
+        for (int z = positionMin; z <= positionMax; z += planeSize)
         {
-            for (int x = -1350; x <= 1350; x += 300)
+            for (int x = positionMin; x <= positionMax; x += planeSize)
             {
                 GameObject obj = PrefabUtility.InstantiatePrefab(Prefab) as GameObject;
 
