@@ -65703,7 +65703,7 @@ MonoBehaviour:
     m_Bits: 2049
   Health: 113
   RepeatingWorld: 1
-  RepeatingWorldDistance: 1500
+  RepeatingWorldDistance: 1700
   SwitchHandsJoyThrottle: 0
   HasAfterburner: 0
   AfterBurnerKey: 116
